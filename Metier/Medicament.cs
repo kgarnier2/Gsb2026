@@ -41,5 +41,12 @@ namespace Metier
 
         public override string ToString() => Id;
 
+        public Famille Famille
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

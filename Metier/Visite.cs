@@ -47,7 +47,7 @@ namespace Metier
             lesEchantillons = new SortedDictionary<Medicament, int>();
 
             // mise à jour de la relation bidirectionnelle avec l'objet Praticien
-           
+            LePraticien.ajouteVisite(this);
 
         }
 
@@ -93,6 +93,29 @@ namespace Metier
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
+        public Medicament Medicament
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Medicament Medicament1
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Praticien Praticien
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 
 }

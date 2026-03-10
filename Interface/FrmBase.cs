@@ -92,7 +92,15 @@ namespace Interface
         /// </summary>
         private void ouvrirFormulaire(Form frm)
         {
-           
+            frm.Show();
+            if (frm is FrmBase frmMenu)
+            {
+                this.Hide();
+            }
+            else
+            {
+                this.Close();
+            }
         }
 
         private void parametrerComposant()
@@ -143,5 +151,9 @@ namespace Interface
 
         #endregion
 
+        private void lblTitre_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

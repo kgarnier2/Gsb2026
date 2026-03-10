@@ -17,5 +17,12 @@ namespace Metier
         public int Id { get; set; }
         public string Libelle { get; set; }
 
+        public Visite Visite
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
