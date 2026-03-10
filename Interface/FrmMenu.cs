@@ -13,5 +13,10 @@ namespace Interface
         {
             lblTitre.Text = "Gestion des visites";
         }
+
+        private void lblTitre_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
