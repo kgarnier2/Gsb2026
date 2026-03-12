@@ -1,12 +1,9 @@
-﻿using Metier;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Donnee;
+using Metier;
 using System.Data;
-using System.Drawing;
-using System.Drawing.Text;
-using System.Text;
-using System.Windows.Forms;
+using Donnee;
+using Metier;
+
 
 namespace Interface
 {
@@ -20,9 +17,15 @@ namespace Interface
         private void FrmVisiteAjout_Load(object sender, EventArgs e)
         {
             parametrerComposant();
+            remplirDgv();
+        }
+
+        private void btnAjouter_Click(object sender, EventArgs e)
+        {
+            ajout();
         }
         #endregion
-        
+
 
 
         private void parametrerComposant()
@@ -35,13 +38,19 @@ namespace Interface
                 cbxPraticien.Items.Add(unPraticien);
             }
             cbxPraticien.DisplayMember = "NomPrenom";
-            cbxPraticien.ValueMember= "Id";
+            cbxPraticien.ValueMember = "Id";
             cbxPraticien.SelectedIndex = 0;
+            cbxPraticien.DropDownStyle = ComboBoxStyle.DropDownList;
 
             //alimentation de la zone de liste des motifs
             cbxMotif.DataSource = session.LesMotifs;
             cbxMotif.DisplayMember = "Libelle";
             cbxMotif.ValueMember = "Id";
+            cbxMotif.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            //paramétrage du dateTimePicker
+            dtpDate.Format = DateTimePickerFormat.Custom;
+            dtpDate.CustomFormat = "dd/MM/yyyy HH:mm";
 
             //paramétrage du datagridview
             parametrerDgv(dgvVisites);
@@ -212,6 +221,7 @@ namespace Interface
             // faut-il désactiver le tri sur toutes les colonnes ? (commenter les lignes si non)
             for (int i = 0; i < dgv.ColumnCount; i++)
                 dgv.Columns[i].SortMode = DataGridViewColumnSortMode.NotSortable;
+        }
 
             #endregion
         private void remplirDgv()
@@ -219,14 +229,68 @@ namespace Interface
             //vider les lignes avant de les remplir
             dgvVisites.Rows.Clear();
             //parcourir la liste des visites dans l'ordre chronologique et ajouter une ligne pour chaque visite
-            foreach(Visite v in session.MesVisites.Where(v => v.Bilan is null))
+            foreach (Visite v in session.MesVisites.Where(v => v.Bilan is null).OrderBy(v => v.DateEtHeure))
             {
-                dgvVisites.Rows.Add(v.DateEtHeure.ToLongDateString, v.DateEtHeure.ToShortTimeString(), v.LePraticien.Ville, v.LePraticien.NomPrenom);
+                dgvVisites.Rows.Add(v.DateEtHeure.ToLongDateString(), v.DateEtHeure.ToShortTimeString(), v.LePraticien.Ville, v.LePraticien.NomPrenom);
 
             }
         }
+
+        //enregistrer la visite
+        private void ajout()
+        {
+            //vérifier le praticien
+            if (cbxPraticien.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un praticien.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //verifier le motif
+            if (cbxMotif.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un motif.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            //vérifier la date et l'heure
+            if (dtpDate.Value < DateTime.Now)
+            {
+                MessageBox.Show("Veuillez sélectionner une date et une heure futures.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            try
+            {
+                //récupérer les données saisies
+                Praticien p = (Praticien)cbxPraticien.SelectedItem;
+                Motif m = (Motif)cbxMotif.SelectedItem;
+                DateTime date = dtpDate.Value;
+
+                //enregistrer dans la base de données
+                int id = Passerelle.ajouterRendezVous(
+                    (p).Id,
+                    (m).Id,
+                    date);
+                //ajouter la visite dans la session
+                session.MesVisites.Add(new Visite(id, p, m, date));
+
+                //mettre à jour le datagridview
+                remplirDgv();
+
+                //message de confirmation
+                MessageBox.Show("La visite a été ajoutée avec succès.", "Succès", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                //activer le formulaire de modification de la visite
+                modifierRendezVous.Enabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
         #endregion
-    }
+
+        
     }
 }
-    
