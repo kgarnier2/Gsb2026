@@ -393,6 +393,13 @@ namespace Donnee
         /// <param name="idVisite">ID de la visite à supprimer</param>
         static public void supprimerRendezVous(int idVisite)
         {
+            string sql = "supprimerRendezVous";
+            using MySqlConnection cnx = ouvrirConnexion();
+            using var cmd = new MySqlCommand(sql, cnx);
+            cmd.CommandType = CommandType.StoredProcedure;
+            // Ajout des paramètres
+            cmd.Parameters.AddWithValue("_idVisite", idVisite);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
@@ -402,7 +409,14 @@ namespace Donnee
         /// <param name="uneDateEtHeure">Nouvelle date et heure</param>
         static public void modifierRendezVous(int idVisite, DateTime uneDateEtHeure)
         {
-
+            string sql = "modifierRendezVous";
+            using MySqlConnection cnx = ouvrirConnexion();
+            using var cmd = new MySqlCommand(sql, cnx);
+            cmd.CommandType = CommandType.StoredProcedure;
+            // Ajout des paramètres
+            cmd.Parameters.AddWithValue("_idVisite", idVisite);
+            cmd.Parameters.AddWithValue("_dateEtHeure", uneDateEtHeure);
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>

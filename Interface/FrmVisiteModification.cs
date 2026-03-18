@@ -1,24 +1,30 @@
-﻿using Metier;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Donnee;
+using Metier;
 using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using Donnee;
+using Metier;
 
 namespace Interface
 {
     public partial class FrmVisiteModification : FrmBase
     {
-        public FrmVisiteModification(Session uneSession) : base(uneSession) 
+        public FrmVisiteModification(Session uneSession) : base(uneSession)
         {
             InitializeComponent();
         }
 
+        #region procédures événementielles
         private void FrmVisiteModification_Load(object sender, EventArgs e)
         {
-            this.lblTitre.Text = "Modification d'une visite";
+
+            remplirDgv();
         }
+
+        private void btnModifier_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
     }
 }
