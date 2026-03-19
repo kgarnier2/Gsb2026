@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmVisiteAjout));
-            panelDroite = new Panel();
+            panelDroit = new Panel();
             panel2 = new Panel();
             label5 = new Label();
             label4 = new Label();
@@ -42,7 +42,7 @@
             panelGauche = new Panel();
             dgvVisites = new DataGridView();
             label2 = new Label();
-            panelDroite.SuspendLayout();
+            panelDroit.SuspendLayout();
             panel2.SuspendLayout();
             panelGauche.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvVisites).BeginInit();
@@ -52,15 +52,15 @@
             // 
             lblTitre.Size = new Size(800, 74);
             // 
-            // panelDroite
+            // panelDroit
             // 
-            panelDroite.Controls.Add(panel2);
-            panelDroite.Dock = DockStyle.Right;
-            panelDroite.Location = new Point(454, 98);
-            panelDroite.Name = "panelDroite";
-            panelDroite.Padding = new Padding(10);
-            panelDroite.Size = new Size(346, 307);
-            panelDroite.TabIndex = 13;
+            panelDroit.Controls.Add(panel2);
+            panelDroit.Dock = DockStyle.Right;
+            panelDroit.Location = new Point(454, 98);
+            panelDroit.Name = "panelDroit";
+            panelDroit.Padding = new Padding(10);
+            panelDroit.Size = new Size(346, 307);
+            panelDroit.TabIndex = 13;
             // 
             // panel2
             // 
@@ -184,16 +184,16 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(panelGauche);
-            Controls.Add(panelDroite);
+            Controls.Add(panelDroit);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "FrmVisiteAjout";
             Text = "FrmVisiteAjout";
             Load += FrmVisiteAjout_Load;
             Controls.SetChildIndex(lblTitre, 0);
-            Controls.SetChildIndex(panelDroite, 0);
+            Controls.SetChildIndex(panelDroit, 0);
             Controls.SetChildIndex(panelGauche, 0);
-            panelDroite.ResumeLayout(false);
+            panelDroit.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             panelGauche.ResumeLayout(false);
@@ -204,7 +204,7 @@
 
         #endregion
 
-        private Panel panelDroite;
+        private Panel panelDroit;
         private Panel panelGauche;
         private Label label2;
         private DateTimePicker dtpDate;

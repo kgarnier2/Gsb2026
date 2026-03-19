@@ -354,37 +354,18 @@ namespace Donnee
         /// <param name="idMotif">ID du motif</param>
         /// <param name="uneDate">Date et heure du rendez-vous</param>
         /// <returns>ID de la nouvelle visite, ou 0 en cas d'erreur</returns>
-        static public int ajouterRendezVous(int idPraticien, int idMotif, DateTime uneDate)
+        public static int ajouterRendezVous(int idPraticien, int idMotif, DateTime uneDate)
         {
             string sql = "ajouterRendezVous";
-
             using MySqlConnection cnx = ouvrirConnexion();
             using var cmd = new MySqlCommand(sql, cnx);
             cmd.CommandType = CommandType.StoredProcedure;
-            // Ajout des paramètres
             cmd.Parameters.AddWithValue("_idpraticien", idPraticien);
             cmd.Parameters.AddWithValue("_idmotif", idMotif);
             cmd.Parameters.AddWithValue("_dateEtHeure", uneDate);
 
-            /*
-            //solution A
-            var paramSortie = new MySqlParameter("_idvisite", MySqlDbType.Int32);
-            paramSortie.Direction = ParameterDirection.Output;
-            cmd.Parameters.Add(paramSortie);
-            cmd.ExecuteNonQuery();
-            return (int)paramSortie.Value!;
-            
-            //solution B
-            return Convert.ToInt32(cmd.ExecuteScalar()!);
-            */
-            //solution c
-            cmd.ExecuteNonQuery();
-            return Convert.ToInt32(cmd.LastInsertedId);
-
-
-
-
-            return 0;
+            // ExecuteScalar pour récupérer le résultat du SELECT
+            return Convert.ToInt32(cmd.ExecuteScalar());
         }
 
         /// <summary>
