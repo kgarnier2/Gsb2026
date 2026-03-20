@@ -406,6 +406,17 @@ namespace Donnee
         /// <param name="uneVisite">Visite à enregistrer</param>
         static public void enregistrerBilan(Visite uneVisite)
         {
+            string sql = "enregistrerBilanVisite";
+            using MySqlConnection cnx = ouvrirConnexion();
+            using var cmd = new MySqlCommand(sql, cnx);
+            cmd.CommandType = CommandType.StoredProcedure;
+            // Déclaration d'un transaction
+            MySqlTransaction uneTransaction = cnx.BeginTransaction();
+            // attacher la commande à la transcation
+            cmd.Transaction = uneTransaction;
+            // annuler la transaction
+            uneTransaction.Rollback();
+            uneTransaction.Commit();
 
 
         }
