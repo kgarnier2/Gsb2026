@@ -27,7 +27,7 @@ namespace Interface
         #endregion
 
 
-private void parametrerComposant()
+        private void parametrerComposant()
         {
             lblTitre.Text = "Ajouter une visite";
 
@@ -54,7 +54,7 @@ private void parametrerComposant()
             //paramétrage du datagridview
             parametrerDgv(dgvVisites);
         }
-        
+
         #region procédures
         private void parametrerDgv(DataGridView dgv)
         {
@@ -307,6 +307,6 @@ private void parametrerComposant()
         }
         #endregion
 
-        
+
     }
 }
