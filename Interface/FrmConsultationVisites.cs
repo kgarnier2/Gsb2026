@@ -56,6 +56,7 @@ namespace Interface
         {
             lblTitre.Text = "Consultation des visites";
             ViderAffichage();
+
         }
 
         private void parametrerDgvEchantillons()
@@ -286,6 +287,7 @@ namespace Interface
             }
         }
 
+
         private void ViderAffichage()
         {
             lblPraticien.Text = "";
@@ -309,5 +311,10 @@ namespace Interface
         }
 
         #endregion
+
+        private void dgvEchantillon_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

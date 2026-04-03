@@ -410,15 +410,39 @@ namespace Donnee
             using MySqlConnection cnx = ouvrirConnexion();
             using var cmd = new MySqlCommand(sql, cnx);
             cmd.CommandType = CommandType.StoredProcedure;
-            // Déclaration d'un transaction
+
             MySqlTransaction uneTransaction = cnx.BeginTransaction();
-            // attacher la commande à la transcation
             cmd.Transaction = uneTransaction;
-            // annuler la transaction
-            uneTransaction.Rollback();
-            uneTransaction.Commit();
 
+            try
+            {
+                // Paramètres de la procédure stockée
+                cmd.Parameters.AddWithValue("_idVisite", uneVisite.Id);
+                cmd.Parameters.AddWithValue("_bilan", uneVisite.Bilan);
+                cmd.Parameters.AddWithValue("_premierMedicament", uneVisite.PremierMedicament?.Id);
+                cmd.Parameters.AddWithValue("_secondMedicament", uneVisite.SecondMedicament?.Id ?? (object)DBNull.Value);
 
+                cmd.ExecuteNonQuery();
+
+                // Ajout des échantillons
+                foreach (KeyValuePair<Medicament, int> ech in uneVisite)
+                {
+                    using var cmdEch = new MySqlCommand("ajouterEchantillon", cnx);
+                    cmdEch.CommandType = CommandType.StoredProcedure;
+                    cmdEch.Transaction = uneTransaction;
+                    cmdEch.Parameters.AddWithValue("_idVisite", uneVisite.Id);
+                    cmdEch.Parameters.AddWithValue("_idMedicament", ech.Key.Id);
+                    cmdEch.Parameters.AddWithValue("_quantite", ech.Value);
+                    cmdEch.ExecuteNonQuery();
+                }
+
+                uneTransaction.Commit();
+            }
+            catch (Exception)
+            {
+                uneTransaction.Rollback();
+                throw;
+            }
         }
 
         /// <summary>
